@@ -47,9 +47,28 @@ function blackRacket(response) {
   });
 }
 
+function order(response, productId) {
+  response.writeHead(200, { "Content-Type": "text/html" });
+
+  mariadb.query(
+    "INSERT INTO orderlist VALUES (" +
+      productId +
+      ", '" +
+      new Date().toLocaleDateString() +
+      "');",
+    function (err, rows) {
+      console.log(rows);
+    }
+  );
+
+  response.write("order page");
+  response.end();
+}
+
 // key:value
 let handle = {};
 handle["/"] = main;
+handle["/order"] = order;
 handle["/favicon.ico"] = function () {};
 
 /* image directory */
